@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--
+    The page <title> shown in the browser tab.
+    Each page file can set its own "title" at the top (front matter),
+    otherwise it falls back to the site title from _config.yml.
+  -->
+  <title>About · Effective Altruism St. Andrews</title>
+
+  <meta name="description" content="Doing Good, Better — welcome to Effective Altruism St. Andrews.">
+
+  <!-- All styling lives in this one CSS file -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Google Font used for headings/body — see assets/css/style.css for how it's used -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!--
+  HEADER
+  This shows up at the top of every page: the site name/logo
+  on the left, and the nav menu on the right (pulled from
+  _data/nav.yml — edit that file to change the menu links).
+-->
+<header class="site-header">
+  <a class="site-logo" href="/">Effective Altruism St. Andrews</a>
+
+  <nav class="site-nav">
+    
+      
+      <a href="/events/"
+         class="nav-link ">
+        Events
+      </a>
+    
+      
+      <a href="/pages/stair.html"
+         class="nav-link ">
+        STAIR
+      </a>
+    
+      
+      <a href="/pages/arete.html"
+         class="nav-link ">
+        Arete Fellowship
+      </a>
+    
+      
+      <a href="/"
+         class="nav-link nav-link--active">
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <main class="site-main">
+    <!--
+  HERO SECTION
+  Big heading + subheading on the left, photo on the right.
+  Edit the text directly below. To change the photo, replace
+  the file at assets/images/hero-photo.jpg with your own image
+  (keep the same filename, or update the "src" path below).
+-->
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="hero-title">Doing Good, Better</h1>
+    <p class="hero-subtitle">Welcome to Effective Altruism St. Andrews</p>
+  </div>
+
+  <div class="hero-image">
+    <img src="/assets/images/eawebsitephoto.jpg" alt="St Andrews X Durham Photo" />
+
+
+  </div>
+</section>
+
+<!--
+  ACCORDION SECTIONS ("About EA", "About us", "What we do on campus")
+  Each <details> block is one collapsible section. Click the
+  <summary> line to expand/collapse it — no JavaScript needed.
+
+  TO EDIT: change the text inside <summary> (the title) or
+  inside the <p> tags (the description).
+  TO ADD a new section: copy one whole <details>...</details>
+  block and edit it.
+-->
+<h3>What we do</h3>
+<p>Effective Altruism is a society that is focused on answering one simple question: how can we use our resources to help others the most? In order to achieve this, we focus on using evidence and careful analysis in order to determine the most impactful ways we can use our time and money to do good in the world.
+
+We focus on helping students to choose high-impact careers, through mentorship programmes and discussion groups; we also offer opportunities to discuss ideas at pub socials, community dinners, and student-led lectures like the Arete Fellowship and the STAIR research programme</p>
+</p>
+
+</section>
+
+  </main>
+
+  <!--
+  FOOTER
+  Shows up at the bottom of every page. This is the
+  "invite people to participate" section — edit the text
+  and button below to change what it says or where it links.
+-->
+
+</footer>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <h2 class="footer-heading">Want to get involved?</h2>
+    <p class="footer-text">
+      Join our mailing list, come along to an event, or reach out —
+      we'd love to have you as part of the community.
+    </p>
+ 
+    <div class="footer-links">
+      <!-- EDIT THIS: replace with your Instagram profile URL -->
+      <a href="https://www.instagram.com/ea.standrews/" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5"/>
+          <circle cx="12" cy="12" r="4.2"/>
+          <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>Our Instagram</span>
+      </a>
+ 
+      <!-- EDIT THIS: replace with your real contact email -->
+      <a href="mailto:easoc@st-andrews.ac.uk" class="footer-link" aria-label="Email">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
+          <path d="M3.5 6.5l8.5 7 8.5-7"/>
+        </svg>
+        <span>Our Email:easoc@st-andrews.ac.uk </span>
+      </a>
+    </div>
+ 
+    <!-- EDIT THIS: replace with your Form URL -->
+    <a class="footer-button" href="https://airtable.com/appgrunhNywu1Cd8p/shr9iZscn7El8g4S8" target="_blank" rel="noopener noreferrer">Join the Arete Fellowship</a>
+ 
+    <p class="footer-meta">
+      &copy; 2026 Effective Altruism St. Andrews
+    </p>
+  </div>
+</footer>
+ 
+
+</body>
+</html>

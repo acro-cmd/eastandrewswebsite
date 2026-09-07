@@ -1,0 +1,2 @@
+Put your hero photo here, named exactly: hero-photo.jpg
+(or update the filename in index.md if you'd rather use a different name)

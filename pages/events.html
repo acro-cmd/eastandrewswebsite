@@ -1,0 +1,481 @@
+---
+layout: default
+title: Events
+permalink: /events/
+---
+<style>
+  /* NOTE: this page has its own header/timeline styling scoped below.
+     If your site's nav bar (from _includes/header.html) is also fixed
+     or sticky, add its height to the JS `headerHeight` calculation
+     near the bottom of this file so things don't overlap. */
+
+  /* Your site-wide nav (.site-header) is normally a regular, scrolls-
+     away-with-the-page element in style.css. This page needs it truly
+     pinned to the top, with our own "Events" header stacking directly
+     beneath it. Because this rule lives inside events.html itself
+     (not style.css), it only takes effect on this page — every other
+     page on the site keeps its normal scrolling nav, unchanged. */
+  .site-header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:30;
+    background:var(--color-background, #fff);
+    border-bottom:1px solid var(--color-border, #e5e5e5);
+  }
+
+  :root{
+    --ink: #1c1c1a;
+    --paper: #faf9f6;
+    --paper-dim: #f1efe9;
+    --accent: #1f6f5c;       /* deep teal-green: growth / "doing good" */
+    --accent-soft: #d8e8e2;
+    --gold: #c9973f;         /* "you are here" marker */
+    --muted: #9a978d;
+    --line: #dedad0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+  }
+
+  .page-head{
+    position:fixed;
+    top:0; /* overridden by JS below to sit under .site-header */
+    left:0;
+    right:0;
+    max-width:none;
+    margin:0;
+    padding:1.5rem 1.5rem 1.1rem;
+    text-align:center;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    z-index:20;
+  }
+  .page-head-inner{
+    max-width:640px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-size:0.75rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:0.4rem;
+  }
+  .page-head h1{
+    font-size:1.9rem;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin:0 0 0.4rem;
+  }
+  .page-head p{
+    color:#55534a;
+    font-size:0.92rem;
+    line-height:1.4;
+    margin:0;
+  }
+
+  .timeline{
+    position:relative;
+    max-width:1080px;
+    margin:2rem auto 0;
+    padding:2rem 1.5rem 0;
+  }
+
+  /* the spine */
+  .timeline::before{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:50%;
+    width:2px;
+    background:var(--line);
+    transform:translateX(-50%);
+  }
+
+  .event{
+    position:relative;
+    width:50%;
+    padding:0 3rem 3rem;
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.7s cubic-bezier(.2,.7,.3,1), transform 0.7s cubic-bezier(.2,.7,.3,1);
+  }
+  .event.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .event:nth-child(odd){ left:0; text-align:right; }
+  .event:nth-child(even){ left:50%; text-align:left; }
+
+  /* node on the spine */
+  .node{
+    position:absolute;
+    top:0.6rem;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--muted);
+    z-index:2;
+  }
+  .event:nth-child(odd) .node{ right:-8px; }
+  .event:nth-child(even) .node{ left:-8px; }
+
+  .event.is-past .node{ border-color:var(--line); background:var(--line); }
+  .event.is-future .node{ border-color:var(--accent); }
+  .event.is-today .node{
+    border-color:var(--gold);
+    background:var(--gold);
+    box-shadow:0 0 0 6px rgba(201,151,63,0.22);
+  }
+
+  .card{
+    display:inline-block;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.1rem 1.3rem;
+    max-width:100%;
+    width:100%;
+    text-align:left;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  }
+  .event.is-past .card{ opacity:0.62; }
+
+  .date{
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:0.35rem;
+  }
+  .event.is-past .date{ color:var(--muted); }
+
+  .badge{
+    display:inline-block;
+    font-size:0.62rem;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:0.15rem 0.5rem;
+    border-radius:999px;
+    background:var(--gold);
+    color:#fff;
+    margin-left:0.5rem;
+    vertical-align:middle;
+  }
+
+  .card h3{
+    margin:0 0 0.35rem;
+    font-size:1.02rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .card p{
+    margin:0;
+    font-size:0.85rem;
+    line-height:1.5;
+    color:#514f47;
+  }
+  .card .meta{
+    margin-top:0.55rem;
+    font-size:0.75rem;
+    color:var(--muted);
+  }
+
+  .cal-actions{
+    margin-top:0.75rem;
+    display:flex;
+    gap:0.5rem;
+    flex-wrap:wrap;
+  }
+  .event:nth-child(odd) .cal-actions{ justify-content:flex-end; }
+  .cal-btn{
+    font-size:0.72rem;
+    font-weight:600;
+    padding:0.32rem 0.7rem;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:var(--paper-dim);
+    color:var(--ink);
+    text-decoration:none;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .cal-btn:hover{ background:var(--accent-soft); border-color:var(--accent); }
+
+  @media (max-width: 720px){
+    .timeline::before{ left:14px; }
+    .event, .event:nth-child(even){
+      left:0;
+      width:100%;
+      text-align:left !important;
+      padding:0 0 3rem 3.5rem;
+    }
+    .event:nth-child(odd) .node, .event:nth-child(even) .node{ left:8px; right:auto; }
+  }
+
+  /* top/bottom vignette so cards feel like they fade into the page edges */
+  .fade-edge{
+    position:fixed;
+    left:0;
+    right:0;
+    height:140px;
+    pointer-events:none;
+    z-index:10;
+  }
+  .fade-top{
+    top:0;
+    background:linear-gradient(to bottom, var(--paper) 0%, rgba(250,249,246,0) 100%);
+  }
+  .fade-bottom{
+    bottom:0;
+    background:linear-gradient(to top, var(--paper) 0%, rgba(250,249,246,0) 100%);
+  }
+
+  .direction-hint{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:11;
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:0.4rem 0.9rem;
+    border-radius:999px;
+    background:rgba(255,255,255,0.9);
+    border:1px solid var(--line);
+    color:#6b6a60;
+    pointer-events:none;
+    animation:hint-pulse 2.6s ease-in-out infinite;
+  }
+  .hint-top{ top:18px; color:var(--accent); }
+  .hint-bottom{ bottom:18px; color:var(--muted); }
+  @keyframes hint-pulse{
+    0%, 100% { opacity:0.55; }
+    50% { opacity:1; }
+  }
+</style>
+
+<div class="fade-edge fade-top"></div>
+<div class="fade-edge fade-bottom"></div>
+<div class="direction-hint hint-top">&uarr; Upcoming</div>
+<div class="direction-hint hint-bottom">&darr; Past</div>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <h2>Events</h2>
+</div></div>
+
+<div class="timeline" id="timeline"></div>
+<div style="height:40vh"></div>
+
+<script type="application/json" id="events-data">
+{{ site.data.events | jsonify }}
+</script>
+
+<script>
+  // Your site-wide nav (.site-header) is fixed at the top of every page.
+  // This custom events header needs to sit *below* it, not on top of it —
+  // so measure the real nav's height first, position our header under it,
+  // then treat "both headers combined" as the total offset for everything
+  // else on this page (timeline, fade edges, scroll centering).
+  const siteHeaderEl = document.querySelector('.site-header');
+  const siteHeaderHeight = siteHeaderEl ? siteHeaderEl.getBoundingClientRect().height : 0;
+
+  const pageHeadEl = document.querySelector('.page-head');
+  pageHeadEl.style.top = `${siteHeaderHeight}px`;
+
+  const headerHeight = siteHeaderHeight + pageHeadEl.getBoundingClientRect().height;
+  document.getElementById('timeline').style.marginTop = `${headerHeight + 24}px`;
+  document.querySelector('.fade-top').style.top = `${headerHeight}px`;
+  document.querySelector('.fade-top').style.height = '100px';
+  document.querySelector('.hint-top').style.top = `${headerHeight + 14}px`;
+
+  // Event content comes from _data/events.yml — that's the only file
+  // an admin needs to edit. Jekyll writes it as JSON into the
+  // #events-data tag above at build time; this just reads it back out
+  // as a normal JS array, so this whole file is valid, lintable
+  // JavaScript with no Liquid syntax mixed in.
+  const events = JSON.parse(document.getElementById('events-data').textContent);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  events.forEach(ev => {
+    ev.dateObj = new Date(ev.date + "T00:00:00");
+    if (ev.dateObj.getTime() === today.getTime()) ev.status = 'today';
+    else if (ev.dateObj.getTime() > today.getTime()) ev.status = 'future';
+    else ev.status = 'past';
+    ev.displayDate = ev.dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  });
+
+  // Future at the top, past at the bottom — scrolling up moves forward in
+  // time, scrolling down moves back.
+  events.sort((a, b) => b.dateObj - a.dateObj);
+
+  // Anchor point = today if it exists, otherwise whichever event is
+  // closest to today (so the page always has a "present" to open on,
+  // even on days with nothing scheduled).
+  let anchor = events[0];
+  let smallestDiff = Infinity;
+  events.forEach(ev => {
+    const diff = Math.abs(ev.dateObj.getTime() - today.getTime());
+    if (diff < smallestDiff) {
+      smallestDiff = diff;
+      anchor = ev;
+    }
+  });
+  anchor.isAnchor = true;
+
+  // ---- Add to calendar -------------------------------------------------
+  function pad(n){ return n.toString().padStart(2, '0'); }
+
+  // Works out a start/end Date for an event. If no "time" is set in
+  // events.yml, treats it as an all-day event.
+  function eventDates(ev){
+    const allDay = !ev.time;
+    let start, end;
+    if (allDay) {
+      start = new Date(ev.date + "T00:00:00");
+      end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+    } else {
+      start = new Date(ev.date + "T" + ev.time + ":00");
+      const durationMins = ev.duration || 60;
+      end = new Date(start.getTime() + durationMins * 60000);
+    }
+    return { start, end, allDay };
+  }
+
+  function toLocalYMD(d){
+    return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  }
+  function toUTCStamp(d){
+    return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+  }
+
+  function googleCalendarUrl(ev){
+    const { start, end, allDay } = eventDates(ev);
+    const dates = allDay
+      ? `${toLocalYMD(start)}/${toLocalYMD(end)}`
+      : `${toUTCStamp(start)}/${toUTCStamp(end)}`;
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: ev.title,
+      dates,
+      details: ev.description || '',
+      location: ev.location || '',
+    });
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  }
+
+  function escapeICS(str){
+    return (str || '').replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+  }
+
+  function downloadICS(ev){
+    const { start, end, allDay } = eventDates(ev);
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//EA St Andrews//Events//EN',
+      'BEGIN:VEVENT',
+      allDay ? `DTSTART;VALUE=DATE:${toLocalYMD(start)}` : `DTSTART:${toUTCStamp(start)}`,
+      allDay ? `DTEND;VALUE=DATE:${toLocalYMD(end)}` : `DTEND:${toUTCStamp(end)}`,
+      `SUMMARY:${escapeICS(ev.title)}`,
+      `DESCRIPTION:${escapeICS(ev.description)}`,
+      `LOCATION:${escapeICS(ev.location)}`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ];
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${ev.title.replace(/[^a-z0-9]/gi, '-')}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+  // ------------------------------------------------------------------
+
+  const timeline = document.getElementById('timeline');
+
+  events.forEach(ev => {
+    const el = document.createElement('div');
+    el.className = `event is-${ev.status}`;
+    if (ev.isAnchor) el.id = 'today-event';
+    el.innerHTML = `
+      <span class="node"></span>
+      <div class="card">
+        <div class="date">${ev.displayDate}${ev.time ? ' · ' + ev.time : ''}${ev.status === 'today' ? '<span class="badge">Happening now</span>' : ''}</div>
+        <h3>${ev.title}</h3>
+        <p>${ev.description || ''}</p>
+        ${ev.location ? `<div class="meta">${ev.location}</div>` : ''}
+        <div class="cal-actions">
+          <a class="cal-btn" href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener noreferrer">+ Google Calendar</a>
+          <button type="button" class="cal-btn" data-ics-btn>+ Apple/Outlook</button>
+        </div>
+      </div>
+    `;
+    el.querySelector('[data-ics-btn]').addEventListener('click', () => downloadICS(ev));
+    timeline.appendChild(el);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // fade in once, don't re-trigger
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+
+  document.querySelectorAll('.event').forEach(el => observer.observe(el));
+
+  // Land exactly on "today" (or the closest event to it), centered within
+  // the scrollable area *below* the fixed header — scroll up from here to
+  // go into the future, down for the past.
+  window.addEventListener('load', () => {
+    const todayEl = document.getElementById('today-event');
+    if (todayEl) {
+      const rect = todayEl.getBoundingClientRect();
+      const subLevelHeight = window.innerHeight - headerHeight;
+      const targetViewportPosition = headerHeight + (subLevelHeight / 2);
+      const scrollTarget = window.scrollY + rect.top + (rect.height / 2) - targetViewportPosition;
+      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
+      todayEl.classList.add('visible');
+    }
+  });
+
+  // Hint labels fade out once the visitor starts scrolling on their own.
+  let hintsVisible = true;
+  window.addEventListener('scroll', () => {
+    if (hintsVisible) {
+      hintsVisible = false;
+      document.querySelectorAll('.direction-hint').forEach(el => {
+        el.style.animation = 'none';       // stop the pulse — it would
+                                            // otherwise keep overriding
+                                            // the opacity we set below,
+                                            // every single frame.
+        el.style.transition = 'opacity 0.6s ease';
+        el.style.opacity = '0';
+      });
+    }
+  }, { once: true });
+</script>

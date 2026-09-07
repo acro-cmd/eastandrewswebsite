@@ -1,0 +1,19 @@
+<!--
+  HEADER
+  This shows up at the top of every page: the site name/logo
+  on the left, and the nav menu on the right (pulled from
+  _data/nav.yml — edit that file to change the menu links).
+-->
+<header class="site-header">
+  <a class="site-logo" href="/">Effective Altruism St. Andrews</a>
+
+  <nav class="site-nav">
+    {% for item in site.data.nav %}
+      {% comment %} Highlight the link for the page the visitor is currently on {% endcomment %}
+      <a href="{{ item.url | relative_url }}"
+         class="nav-link {% if page.url == item.url %}nav-link--active{% endif %}">
+        {{ item.title }}
+      </a>
+    {% endfor %}
+  </nav>
+</header>

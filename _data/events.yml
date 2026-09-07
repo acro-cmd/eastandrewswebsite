@@ -1,0 +1,56 @@
+# ============================================================
+# EVENTS — edit this file to add, change, or remove events.
+# ============================================================
+#
+# To add a new event: copy one whole block below (from "- date:"
+# down to the next "- date:"), paste it, and change the details.
+# The order you put them in doesn't matter — the site sorts them
+# automatically by date.
+#
+# Fields:
+#   date        REQUIRED. Format: YYYY-MM-DD  (e.g. 2026-09-09)
+#   time        Optional. 24-hour format, e.g. "18:00". Leave out
+#               for an all-day event (e.g. "applications open").
+#   duration    Optional. How long the event runs, in minutes.
+#               Defaults to 60 if left out. Only matters if you
+#               set a time.
+#   title       REQUIRED. Shown as the event's headline.
+#   description Short paragraph shown on the card.
+#   location    Shown under the description, and used for the
+#               "Add to calendar" links.
+#
+# You do NOT need to mark anything as "past", "today", or
+# "upcoming" — the site works that out automatically by comparing
+# each date to today's date every time the page loads.
+# ============================================================
+
+- date: "2026-09-28"
+  title: "Arete Kickoff Social"
+  description: "Kickoff Social for the new term."
+  location: "The Vic"
+
+- date: "2026-09-14"
+  time: "-"
+  duration:
+  title: "Bonfire"
+  description: "Fun social bonfire to kick off the new term."
+  location: "Castle Sands"
+
+- date: "2026-09-19"
+  title: "EAGxOxford meetup"
+  description: "Preperations for EAGxOxford."
+  location: "TBC"
+
+- date: "2026-10-05"
+  time: "14:00"
+  duration: 120
+  title: "TBC"
+  description: "TBC"
+  location: "TBC"
+
+- date: "2026-10-12"
+  time: "-"
+  duration: 60
+  title: "Movie Night"
+  description: "-"
+  location: "TBC"

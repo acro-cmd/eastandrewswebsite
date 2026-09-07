@@ -1,0 +1,27 @@
+# ============================================================
+# SITE CONFIGURATION
+# This file controls global settings for the whole website.
+# You will rarely need to touch this file after initial setup.
+# ============================================================
+
+title: "Effective Altruism St. Andrews"
+description: "Doing Good, Better — welcome to Effective Altruism St. Andrews."
+
+# The base URL is left empty for a custom domain (e.g. eaoxford.com).
+# If you deploy to a subpath like username.github.io/repo-name,
+# set baseurl to "/repo-name" instead.
+baseurl: ""
+url: "https://eaoxford.com"
+
+# Which folder Jekyll builds the final site into.
+# Cloudflare Pages / GitHub Pages will look for this folder.
+destination: _site
+
+# Tell Jekyll to leave these files/folders alone (not copy them into the build)
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+
+# Markdown settings — do not change unless you know why.
+markdown: kramdown
