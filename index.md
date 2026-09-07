@@ -33,36 +33,9 @@ title: "About"
   TO ADD a new section: copy one whole <details>...</details>
   block and edit it.
 -->
-<section class="accordion">
-
-  <details class="accordion-item">
-    <summary>About EA</summary>
-    <p>
-      Effective altruism is a project that combines both the heart and
-      the head: using evidence and careful reasoning to figure out how
-      to do as much good as possible, and taking action on that basis.
-      Replace this paragraph with your own description.
-    </p>
-  </details>
-
-  <details class="accordion-item">
-    <summary>About us</summary>
-    <p>
-      Effective Altruism St. Andrews is a student-run group that
-      explores how to have the greatest positive impact with our time,
-      careers, and resources. Replace this paragraph with your own
-      description of the group.
-    </p>
-  </details>
-
-  <details class="accordion-item">
-    <summary>What we do on campus</summary>
-    <p>
-      We run weekly discussions, reading groups, guest talks, and
-      fellowships (like Arete and STAIR) open to all students,
-      regardless of background or experience with EA. Replace this
-      paragraph with your own description.
-    </p>
-  </details>
+<details class="accordion-item">
+  <summary>What we do</summary>
+  <p>Effective Altruism is a society that is focused on answering one simple question: how can we use our resources to help others the most? In order to achieve this, we focus on using evidence and careful analysis to determine the most impactful ways we can use our time and money to do good in the world. We focus on helping students choose high-impact careers, through mentorship programmes and discussion groups; we also offer opportunities to discuss ideas at pub socials, community dinners, and student-led lectures like the Arete Fellowship and the STAIR research programme.</p>
+</details>
 
 </section>
