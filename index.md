@@ -18,8 +18,8 @@ title: "About"
   </div>
 
   <div class="hero-image">
-    <img src="{{ '/assets/images/hero-photo.jpg' | relative_url }}"
-         alt="Two people talking">
+    <img src="{{ '/assets/images/eawebsitephoto.jpg' | relative_url }}"
+         alt="St andrews X durham">
   </div>
 </section>
 
@@ -36,6 +36,4 @@ title: "About"
 <details class="accordion-item">
   <summary>What we do</summary>
   <p>Effective Altruism is a society that is focused on answering one simple question: how can we use our resources to help others the most? In order to achieve this, we focus on using evidence and careful analysis to determine the most impactful ways we can use our time and money to do good in the world. We focus on helping students choose high-impact careers, through mentorship programmes and discussion groups; we also offer opportunities to discuss ideas at pub socials, community dinners, and student-led lectures like the Arete Fellowship and the STAIR research programme.</p>
-</details>
-
-</section>
+    </details>
