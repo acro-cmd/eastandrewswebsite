@@ -29,12 +29,14 @@
   description: "Kickoff Social for the new term."
   location: "The Vic"
 
+
 - date: "2026-09-14"
-  time: "-"
-  duration:
-  title: "Bonfire"
-  description: "Fun social bonfire to kick off the new term."
+  time: "19:30"
+  duration: 60
+  title: "EA Bonfire Night"
+  description: "We are kicking off the semester with an intro to EA beach bonfire with vegan s'mores and drinks provided! start thr week right by getting to know a great group of people and learning a bit more about what doing good better actually means. Whether you're totally new to EA or just curious what we're about, this is a great way to meet people, ask questions, and see what we do with no prior knowledge needed!"
   location: "Castle Sands"
+
 
 - date: "2026-09-19"
   title: "EAGxOxford meetup"
